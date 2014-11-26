@@ -14,7 +14,7 @@ class Tao_Page_Template {
 	protected $templates;
 
 
-	// Returns an instance of this class.
+	// Retorna a instância
 	public static function get_instance() {
 
 		if( null == self::$instance ) {

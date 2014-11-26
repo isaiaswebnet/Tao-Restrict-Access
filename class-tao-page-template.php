@@ -49,9 +49,7 @@ class Tao_Page_Template {
 
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
-		$this->templates = array(
-			'restrita-page.php'     => __( 'Área Restrita', $this->tao_slug )
-		);
+		$this->templates = array( 'restrita-page.php' => __( 'Área Restrita', $this->tao_slug ) );
 
 		$templates = wp_get_theme()->get_page_templates();
 		$templates = array_merge( $templates, $this->templates );

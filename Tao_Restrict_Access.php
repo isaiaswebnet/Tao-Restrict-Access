@@ -9,16 +9,53 @@ Author: Tiago Pires
 Author URI: http://www.bindigital.com.br
 */
 
-class Tao_Restrict_Access
-{
+require_once( plugin_dir_path( __FILE__ ) . 'class-tao-page-template.php' );
 
+class Tao_Restrict_Access {
+
+public function tao_add_restrict_cpt() {
+		
+		$labels = array(
+				'name' => 'Área Restrita',
+				'singular_name' => 'Área Restrita',
+				'add_new' => 'Adicionar',
+				'add_new_item' => 'Adicionar Novo',
+				'edit_item' => 'Editar',
+				'new_item' => 'Novo',
+				'view_item' => 'Ver detalhes',
+				'search_items' => 'Pesquisar por Área Restrita',
+				'not_found' =>  'Não foram encontrados com este critério',
+				'not_found_in_trash' => 'Não foram encontrado na lixeira com os critérios',
+				'view' =>  'Ver Área Restrita'
+			);
+		
+		$args = array(
+			'labels' => $labels,
+			'singular_label' => 'Item Área Restrita' ,
+			'public' => true,
+			'show_ui' => true,
+			'capability_type' => 'post',
+			'hierarchical' => false,
+			'has_archive' => false,
+			'rewrite' => false,
+			'menu_position' => 5,
+			'supports' => array('title', 'editor', 'excerpt', 'thumbnail')
+			); 
+			
+		register_post_type( 'area_restrita', $args);
+		flush_rewrite_rules(false); 	
+	}
+	
+	
 	// Checa se Existe Página Inicial da Área Restrita
 	public static function install()
     {
     	global $wpdb;
 		$pageRel = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_name='area-restrita'", ARRAY_N);
 		if(empty($pageRel)){
-			$arg = array(
+			
+		//create a new page and automatically assign the page template
+        $arg = array(
 				'post_name'=>'area-restrita',
 				'post_title' => 'Área Restrita',
 				'post_status' => 'private',
@@ -26,9 +63,14 @@ class Tao_Restrict_Access
 				'menu_order' => 100,
 				'post_content' => ''
 			);
-			wp_insert_post( $arg );
-		}
+        $post_id = wp_insert_post($arg);
+        
+		update_post_meta($post_id, "_wp_page_template", "restrita-page.php");
+        update_option("restrita_page_id", $post_id);
     }
+			
+		
+	}
 
     // Checa se Existe Página Inicial da Área Restrita e Deleta
 	public static function uninstall()
@@ -114,6 +156,8 @@ class Tao_Restrict_Access
 
 }
 
+// Plugins Loaded
+add_action( 'plugins_loaded', array( 'Tao_Page_Template', 'get_instance' ) );
 
 // Inserir em uma página o seguinte código shortcode [tao-restrict-access] para que seja exibido o formulário de acesso
 add_shortcode('tao-restrict-access', array( 'Tao_Restrict_Access', 'form_access' ));
@@ -123,7 +167,9 @@ add_action( 'wp_enqueue_scripts', array( 'Tao_Restrict_Access', 'callall' ));
 
 // Acesso Ajax Loggin
 add_action('wp_ajax_nopriv_ajax_loggin', array('Tao_Restrict_Access', 'ajax_loggin'));
-add_action('wp_ajax_ajax_loggin', array('Tao_Restrict_Access', 'ajax_loggin'));
+
+// Inserir CPT Área Restrita
+add_action( 'init', array('Tao_Restrict_Access', 'tao_add_restrict_cpt'));
 
 // Remove título privado
 add_filter('the_title', array('Tao_Restrict_Access', 'the_title_trim'));

@@ -2,19 +2,28 @@
 
 if ( ! class_exists( 'Tao_Page_Template' ) ) :
 
+
 class Tao_Page_Template {
 
-    // Identificação para o Plugin
-     protected $tao_slug;
+    /**
+     * Identificação para o plugin
+    */
+    protected $tao_slug;
 
-	// Instância a classe.
+	/**
+	 * Instância a classe.
+	*/
 	private static $instance;
 
-	// Array do Template.
+	/**
+	 * The array of templates that this plugin tracks.
+	*/
 	protected $templates;
 
 
-	// Retorna a instância
+	/**
+	 * Returns an instance of this class.
+	*/
 	public static function get_instance() {
 
 		if( null == self::$instance ) {
@@ -25,7 +34,9 @@ class Tao_Page_Template {
 
 	}
 
-	// Retorna a instância da classe
+	/**
+	 * Initializes the plugin by setting localization, filters, and administration functions.
+	 */
 	private function __construct() {
 
 		$this->templates = array();
@@ -39,7 +50,7 @@ class Tao_Page_Template {
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
 		$this->templates = array(
-			'restrita-page.php'     => 'Área Restrita', $this->tao_slug 
+			'restrita-page.php'     => __( 'Área Restrita', $this->tao_slug )
 		);
 
 		$templates = wp_get_theme()->get_page_templates();
@@ -47,7 +58,9 @@ class Tao_Page_Template {
 
 	}
 
-	// Adiciona o template em cache para páginas
+	/**
+	 * Adds our template to the pages cache in order to trick WordPress
+	 */
 	public function register_project_templates( $atts ) {
 
 		$cache_key = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
@@ -67,7 +80,9 @@ class Tao_Page_Template {
 
 	}
 
-	// Ver se o template é referente à página
+	/**
+	 * Checks if the template is assigned to the page
+	 */
 	public function view_project_template( $template ) {
 
 		global $post;
@@ -88,7 +103,9 @@ class Tao_Page_Template {
 
 	} 
 	
-	 // desativar o Template
+	 /**
+	 * deactivate the template
+	 */
 	 static function deactivate( $network_wide ) {
 		foreach($this as $value) {
 			page-template-example::delete_template( $value );
@@ -96,7 +113,9 @@ class Tao_Page_Template {
 		
 	} 
 	
-	 // Deleta o Template
+	 /**
+	 * Delete Templates from Theme
+	 */
 	 public function delete_template( $filename ){				
 		$theme_path = get_template_directory();
 		$template_path = $theme_path . '/' . $filename;  
@@ -107,8 +126,10 @@ class Tao_Page_Template {
 		wp_cache_delete( $cache_key , 'themes');
 	 }
 
-	// Retorna o slug
-	public function get_locale() {
+	/**
+	* Retrieves and returns the slug of this plugin
+	*/
+	 public function get_locale() {
 		return $this->tao_slug;
 	}
 

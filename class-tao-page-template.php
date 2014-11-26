@@ -6,7 +6,7 @@ if ( ! class_exists( 'Tao_Page_Template' ) ) :
 class Tao_Page_Template {
 
     /**
-     * Identificação para o plugin
+     * Referencia para o Plugin
     */
     protected $tao_slug;
 
@@ -16,13 +16,13 @@ class Tao_Page_Template {
 	private static $instance;
 
 	/**
-	 * The array of templates that this plugin tracks.
+	 * Array do Template.
 	*/
 	protected $templates;
 
 
 	/**
-	 * Returns an instance of this class.
+	 * Retorna um instância
 	*/
 	public static function get_instance() {
 
@@ -35,7 +35,7 @@ class Tao_Page_Template {
 	}
 
 	/**
-	 * Initializes the plugin by setting localization, filters, and administration functions.
+	 * Retorna a instância da classe
 	 */
 	private function __construct() {
 
@@ -59,7 +59,7 @@ class Tao_Page_Template {
 	}
 
 	/**
-	 * Adds our template to the pages cache in order to trick WordPress
+	 * Adiciona o template em cache para páginas
 	 */
 	public function register_project_templates( $atts ) {
 
@@ -81,7 +81,7 @@ class Tao_Page_Template {
 	}
 
 	/**
-	 * Checks if the template is assigned to the page
+	 * Ver se o template é referente à página
 	 */
 	public function view_project_template( $template ) {
 
@@ -104,7 +104,7 @@ class Tao_Page_Template {
 	} 
 	
 	 /**
-	 * deactivate the template
+	 * desativar o Template
 	 */
 	 static function deactivate( $network_wide ) {
 		foreach($this as $value) {
@@ -114,7 +114,7 @@ class Tao_Page_Template {
 	} 
 	
 	 /**
-	 * Delete Templates from Theme
+	 * Deleta o Template
 	 */
 	 public function delete_template( $filename ){				
 		$theme_path = get_template_directory();
@@ -127,7 +127,7 @@ class Tao_Page_Template {
 	 }
 
 	/**
-	* Retrieves and returns the slug of this plugin
+	* Retorna o slug
 	*/
 	 public function get_locale() {
 		return $this->tao_slug;

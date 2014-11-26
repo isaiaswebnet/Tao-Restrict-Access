@@ -123,6 +123,7 @@ add_action( 'wp_enqueue_scripts', array( 'Tao_Restrict_Access', 'callall' ));
 
 // Acesso Ajax Loggin
 add_action('wp_ajax_nopriv_ajax_loggin', array('Tao_Restrict_Access', 'ajax_loggin'));
+add_action('wp_ajax_ajax_loggin', array('Tao_Restrict_Access', 'ajax_loggin'));
 
 // Remove título privado
 add_filter('the_title', array('Tao_Restrict_Access', 'the_title_trim'));

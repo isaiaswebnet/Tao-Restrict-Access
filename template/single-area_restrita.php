@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-
+<?php if ( current_user_can( 'restricted' ) ) { ?>
 <div id="primary" class="site-content">
   <div id="content" role="main">
     <?php the_post(); ?>
@@ -30,6 +30,8 @@
   <!-- #content --> 
 </div>
 <!-- #primary -->
-
+<?php }else{
+		wp_redirect( get_bloginfo('url') )
+	} ?>
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

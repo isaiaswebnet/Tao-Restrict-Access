@@ -15,18 +15,6 @@ class Tao_Restrict_Access {
 
 public function tao_add_restrict_cpt() {
 		
-		$capabilities = array(
- 		'publish_posts' => 'publish_area_restrita',
- 		'edit_posts' => 'edit_area_restrita',
- 		'edit_others_posts' => 'edit_others_area_restrita',
- 		'delete_posts' => 'delete_area_restrita',
- 		'delete_others_posts' => 'delete_others_area_restrita',
- 		'read_private_posts' => 'read_private_area_restrita',
- 		'edit_post' => 'edit_area_restrita',
- 		'delete_post' => 'delete_area_restrita',
- 		'read_post' => 'read_area_restrita'
-		);
-
 		$labels = array(
 				'name' => 'Área Restrita',
 				'singular_name' => 'Área Restrita',
@@ -47,8 +35,7 @@ public function tao_add_restrict_cpt() {
 			'menu_icon' => 'dashicons-lock',
 			'public' => false,
 			'show_ui' => true,
-			'capability_type' => 'area_restrita',
- 			'capabilities'=> $capabilities,
+			'capability_type' => 'post'
 			'hierarchical' => false,
 			'has_archive' => false,
 			'rewrite' => array( 'slug' => 'restricted-area', 'with_front' => false ),
@@ -60,41 +47,7 @@ public function tao_add_restrict_cpt() {
 		register_post_type( 'area_restrita', $args);
 		flush_rewrite_rules(true); 	
 		
-		add_role('restricted', 'Área Restrita', array (
- 		'publish_area_restrita' => true,
- 		'edit_area_restrita' => true,
- 		'edit_others_area_restrita' => true,
- 		'delete_area_restrita' => true,
- 		'delete_others_area_restrita' => true,
- 		'read_private_area_restrita' => true,
- 		'edit_area_restrita' => true,
- 		'delete_area_restrita' => true,
- 		'read_area_restrita' => true,
- 		'read' => true,
- 
-		));
-		
-	global $wp_roles;
- 
-        if ( isset($wp_roles) ) {
- 
-		$wp_roles->add_cap( 'administrator', 'edit_area_restrita' );
-		$wp_roles->add_cap( 'administrator', 'read_area_restrita' );
-		$wp_roles->add_cap( 'administrator', 'delete_area_restrita' );
-    		$wp_roles->add_cap( 'administrator', 'publish_area_restritas' );
-    		$wp_roles->add_cap( 'administrator', 'edit_area_restritas' );
-    		$wp_roles->add_cap( 'administrator', 'edit_others_area_restritas' );
-    		$wp_roles->add_cap( 'administrator', 'delete_area_restritas' );
-    		$wp_roles->add_cap( 'administrator', 'delete_others_area_restritas' );
-    		$wp_roles->add_cap( 'administrator', 'read_private_area_restritas' );
- 
-		$wp_roles->add_cap( 'restricted', 'edit_area_restrita' );
-		$wp_roles->add_cap( 'restricted', 'read_area_restrita' );
-		$wp_roles->add_cap( 'restricted', 'delete_area_restrita' );
-    		$wp_roles->add_cap( 'restricted', 'publish_area_restritas' );
-    		$wp_roles->add_cap( 'restricted', 'read_private_area_restritas' );
- 
-           }	
+			
 	}
 	
 	

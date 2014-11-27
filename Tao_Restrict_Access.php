@@ -33,7 +33,7 @@ public function tao_add_restrict_cpt() {
 			'labels' => $labels,
 			'singular_label' => 'Item Área Restrita',
 			'menu_icon' => 'dashicons-lock',
-			'public' => true,
+			'public' => false,
 			'show_ui' => true,
 			'capability_type' => 'post',
 			'hierarchical' => false,

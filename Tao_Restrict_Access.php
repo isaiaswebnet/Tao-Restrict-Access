@@ -31,19 +31,20 @@ public function tao_add_restrict_cpt() {
 		
 		$args = array(
 			'labels' => $labels,
-			'singular_label' => 'Item Área Restrita' ,
+			'singular_label' => 'Item Área Restrita',
+			'menu_icon' => 'dashicons-lock',
 			'public' => true,
 			'show_ui' => true,
 			'capability_type' => 'post',
 			'hierarchical' => false,
 			'has_archive' => false,
-			'rewrite' => false,
+			'rewrite' => array( 'slug' => 'restricted-area', 'with_front' => false ),
 			'menu_position' => 5,
 			'supports' => array('title', 'editor', 'excerpt', 'thumbnail')
 			); 
 			
 		register_post_type( 'area_restrita', $args);
-		flush_rewrite_rules(false); 	
+		flush_rewrite_rules(true); 	
 	}
 	
 	

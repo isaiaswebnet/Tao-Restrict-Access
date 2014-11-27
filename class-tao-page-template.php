@@ -2,11 +2,10 @@
 
 if ( ! class_exists( 'Tao_Page_Template' ) ) :
 
-
 class Tao_Page_Template {
 
     /**
-     * Referencia para o Plugin
+     * Identificação para o plugin
     */
     protected $tao_slug;
 
@@ -16,13 +15,13 @@ class Tao_Page_Template {
 	private static $instance;
 
 	/**
-	 * Array do Template.
+	 * The array of templates that this plugin tracks.
 	*/
 	protected $templates;
 
 
 	/**
-	 * Retorna um instância
+	 * Returns an instance of this class.
 	*/
 	public static function get_instance() {
 
@@ -35,21 +34,23 @@ class Tao_Page_Template {
 	}
 
 	/**
-	 * Retorna a instância da classe
+	 * Initializes the plugin by setting localization, filters, and administration functions.
 	 */
 	private function __construct() {
 
 		$this->templates = array();
 		
-		add_filter('page_attributes_dropdown_pages_args', array( $this, 'register_project_templates' ) );
+		add_filter('page_attributes_dropdown_pages_args', array( $this, 'register_page_templates' ) );
 
-		add_filter('wp_insert_post_data', array( $this, 'register_project_templates' ) );
+		add_filter('wp_insert_post_data', array( $this, 'register_page_templates' ) );
 
-		add_filter('template_include', array( $this, 'view_project_template') );
+		add_filter('template_include', array( $this, 'view_page_template') );
+		
+		add_filter('single_template', array( $this, 'view_single_template') );
 
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
-		$this->templates = array( 'restrita-page.php' => __( 'Área Restrita', $this->tao_slug ) );
+		$this->templates = array( 'restrita-page.php'     => __( 'Área Restrita', $this->tao_slug ) );
 
 		$templates = wp_get_theme()->get_page_templates();
 		$templates = array_merge( $templates, $this->templates );
@@ -57,9 +58,9 @@ class Tao_Page_Template {
 	}
 
 	/**
-	 * Adiciona o template em cache para páginas
+	 * Adds our template to the pages cache in order to trick WordPress
 	 */
-	public function register_project_templates( $atts ) {
+	public function register_page_templates( $atts ) {
 
 		$cache_key = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
 
@@ -79,9 +80,9 @@ class Tao_Page_Template {
 	}
 
 	/**
-	 * Ver se o template é referente à página
+	 * Checks if the template is assigned to the page
 	 */
-	public function view_project_template( $template ) {
+	public function view_page_template( $template ) {
 
 		global $post;
 
@@ -101,18 +102,29 @@ class Tao_Page_Template {
 
 	} 
 	
+	/**
+	* Single template 'Área Restrita'
+	*/
+	public function view_single_template($single) {
+
+		if(file_exists(plugin_dir_path( __FILE__ ) . 'template/single-area_restrita.php'))
+			return plugin_dir_path( __FILE__ ) . 'template/single-area_restrita.php';
+
+		return $single;
+	}
+	
 	 /**
-	 * desativar o Template
+	 * deactivate the template
 	 */
 	 static function deactivate( $network_wide ) {
 		foreach($this as $value) {
-			page-template-example::delete_template( $value );
+			restrita-page::delete_tempslate( $value );
 		}
 		
 	} 
 	
 	 /**
-	 * Deleta o Template
+	 * Delete Templates from Theme
 	 */
 	 public function delete_template( $filename ){				
 		$theme_path = get_template_directory();
@@ -125,7 +137,7 @@ class Tao_Page_Template {
 	 }
 
 	/**
-	* Retorna o slug
+	* Retrieves and returns the slug of this plugin
 	*/
 	 public function get_locale() {
 		return $this->tao_slug;

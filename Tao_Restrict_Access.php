@@ -15,6 +15,18 @@ class Tao_Restrict_Access {
 
 public function tao_add_restrict_cpt() {
 		
+		$capabilities = array(
+ 		'publish_posts' => 'publish_area_restrita',
+ 		'edit_posts' => 'edit_area_restrita',
+ 		'edit_others_posts' => 'edit_others_area_restrita',
+ 		'delete_posts' => 'delete_area_restrita',
+ 		'delete_others_posts' => 'delete_others_area_restrita',
+ 		'read_private_posts' => 'read_private_area_restrita',
+ 		'edit_post' => 'edit_area_restrita',
+ 		'delete_post' => 'delete_area_restrita',
+ 		'read_post' => 'read_area_restrita'
+		);
+
 		$labels = array(
 				'name' => 'Área Restrita',
 				'singular_name' => 'Área Restrita',
@@ -35,16 +47,33 @@ public function tao_add_restrict_cpt() {
 			'menu_icon' => 'dashicons-lock',
 			'public' => false,
 			'show_ui' => true,
-			'capability_type' => 'post',
+			'capability_type' => 'area_restrita',
+ 			'capabilities'=> $capabilities,
 			'hierarchical' => false,
 			'has_archive' => false,
 			'rewrite' => array( 'slug' => 'restricted-area', 'with_front' => false ),
 			'menu_position' => 5,
-			'supports' => array('title', 'editor', 'excerpt', 'thumbnail')
+			'supports' => array('title', 'editor', 'excerpt', 'thumbnail'),
+			'map_meta_cap'    => true
 			); 
 			
 		register_post_type( 'area_restrita', $args);
 		flush_rewrite_rules(true); 	
+		
+		add_role('area_restrita_author', 'Restricted', array (
+ 		'publish_area_restrita' => true,
+ 		'edit_area_restrita' => true,
+ 		'edit_others_area_restrita' => true,
+ 		'delete_area_restrita' => true,
+ 		'delete_others_area_restrita' => true,
+ 		'read_private_area_restrita' => true,
+ 		'edit_area_restrita' => true,
+ 		'delete_area_restrita' => true,
+ 		'read_area_restrita' => true,
+ 		// more standard capabilities here
+		'read' => true,
+ 
+		)); 	
 	}
 	
 	

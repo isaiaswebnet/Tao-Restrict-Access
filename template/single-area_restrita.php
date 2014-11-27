@@ -31,7 +31,7 @@
 </div>
 <!-- #primary -->
 <?php }else{
-		wp_redirect( get_bloginfo('url') )
+		wp_redirect( get_bloginfo('url') );
 	} ?>
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

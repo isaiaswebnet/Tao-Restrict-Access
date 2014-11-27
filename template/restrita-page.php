@@ -25,8 +25,7 @@
       </div>
       <!-- .entry-content -->
       <div>
-      <?php if ( current_user_can( 'restricted' ) ) { ?>
-      <section>
+       <section>
         <div class="container">
           <?php $args = array(
 					'post_type'   => 'area_restrita',
@@ -37,8 +36,8 @@
 				);	
 				$ar_query = new WP_Query( $args ); 
 				if ( $ar_query->have_posts() ) : while ( $ar_query->have_posts() ) : $ar_query->the_post(); ?>
-          <h2><a href="<?php the_permalink() ?>" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2
-          ><div class="item-entry-img">
+          <h2><?php the_title(); ?></h2>
+          <div class="item-entry-img">
             <?php 
 				if ( has_post_thumbnail() ) {
 					the_post_thumbnail( 'restrita_image' );;
@@ -55,10 +54,6 @@
           <?php wp_reset_postdata(); ?>
         </div>
       </section>
-      <?php }else{
-		  
-		  echo 'Não tem permissão para acessar este conteúdo';
-		  } ?>
       <footer class="entry-meta">
         <?php edit_post_link( 'Edit', '<span class="edit-link">', '</span>' ); ?>
       </footer>
